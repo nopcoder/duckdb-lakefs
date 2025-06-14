@@ -1,0 +1,23 @@
+# name: test/sql/lakefs.test
+# description: test lakefs extension
+# group: [lakefs]
+
+# Before we load the extension, this will fail
+statement error
+SELECT lakefs('Sam');
+----
+Catalog Error: Scalar Function with name lakefs does not exist!
+
+# Require statement will ensure this test is run with this extension loaded
+require lakefs
+
+# Confirm the extension works
+query I
+SELECT lakefs('Sam');
+----
+Lakefs Sam 🐥
+
+query I
+SELECT lakefs_openssl_version('Michael') ILIKE 'Lakefs Michael, my linked OpenSSL version is OpenSSL%';
+----
+true
